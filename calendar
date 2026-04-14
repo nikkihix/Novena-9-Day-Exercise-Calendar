@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Novena & Training Calendar 2026–2027</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #ffffff;
+  --surface: #f7f7f7;
+  --ink: #111111;
+  --ink-mid: #444444;
+  --ink-light: #999999;
+  --border: #e0e0e0;
+  --border-strong: #111111;
+  --accent: #111111;
+
+  --mobility: #1a6b3a;
+  --zone2:    #1a3f7a;
+  --strength: #7a1a1a;
+
+  --today-ring: #111111;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  padding: 0;
+}
+
+.page { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+
+/* ── Header ── */
+.header { margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--ink); }
+.supertitle { font-family: 'DM Sans', sans-serif; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.22em; color: var(--ink-light); text-transform: uppercase; margin-bottom: 0.75rem; }
+.header h1 { font-family: 'Outfit', sans-serif; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; line-height: 1; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: -0.02em; color: var(--ink); }
+.header .subtitle { font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 300; color: var(--ink-light); letter-spacing: 0.04em; }
+
+/* ── Legend ── */
+.legends { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; margin-bottom: 2rem; padding: 1rem 1.25rem; border: 1px solid var(--border); background: var(--surface); }
+.legend-group { display: flex; flex-direction: column; gap: 5px; }
+.legend-group-title { font-family: 'Outfit', sans-serif; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; color: var(--ink-light); text-transform: uppercase; }
+.legend-items { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.legend-item { display: flex; align-items: center; gap: 7px; font-size: 0.78rem; color: var(--ink-mid); font-weight: 300; }
+.legend-workout { display: inline-block; font-family: 'Outfit', sans-serif; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em; padding: 3px 8px; color: white; text-transform: uppercase; }
+
+/* ── Month navigation ── */
+.month-nav { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 2rem; }
+.month-btn { font-family: 'Outfit', sans-serif; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.1em; padding: 6px 14px; border: 1px solid var(--border); background: transparent; color: var(--ink-light); cursor: pointer; transition: all 0.15s; text-transform: uppercase; }
+.month-btn:hover { border-color: var(--ink); color: var(--ink); }
+.month-btn.active { background: var(--ink); color: white; border-color: var(--ink); }
+
+/* ── Calendar grid ── */
+.calendar-wrap { animation: fadeIn 0.25s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+.month-title { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 800; text-transform: uppercase; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+
+.day-headers { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-bottom: 2px; }
+.day-header { font-family: 'Outfit', sans-serif; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.18em; text-align: center; color: var(--ink-light); padding: 5px 0; text-transform: uppercase; }
+
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+
+/* ── Day cell ── */
+.day-cell {
+  min-height: 95px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 6px 6px 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.12s;
+}
+.day-cell:hover { border-color: var(--ink); }
+.day-cell.empty { background: var(--surface); border-color: #eeeeee; }
+.day-cell.today { border: 2px solid var(--ink); }
+.day-cell.today .day-num { color: var(--ink); font-weight: 700; }
+
+.day-num { font-family: 'Outfit', sans-serif; font-size: 0.75rem; font-weight: 700; color: var(--ink-mid); line-height: 1; align-self: flex-end; }
+
+.novena-label { font-size: 0.68rem; line-height: 1.3; color: var(--ink); flex: 1; font-weight: 400; }
+.novena-label a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--border); transition: border-color 0.12s; }
+.novena-label a:hover { border-color: var(--ink); }
+.novena-day { font-family: 'Outfit', sans-serif; font-size: 0.52rem; font-weight: 600; letter-spacing: 0.1em; color: var(--ink-light); margin-top: 2px; text-transform: uppercase; }
+
+.workout-badge {
+  display: inline-block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  color: white;
+  align-self: flex-start;
+  margin-top: auto;
+}
+.workout-badge.mobility  { background: var(--mobility); }
+.workout-badge.zone2     { background: var(--zone2); }
+.workout-badge.strength  { background: var(--strength); }
+
+.today-marker {
+  position: absolute;
+  top: 4px; left: 6px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.48rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--ink);
+  text-transform: uppercase;
+}
+
+.feast-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: #b8860b;
+  padding: 2px 5px;
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
+.feast-label.checkpoint {
+  background: #1a3f7a;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .day-cell { min-height: 72px; }
+  .novena-label { font-size: 0.6rem; }
+  .workout-badge { font-size: 0.48rem; }
+  .header h1 { font-size: 1.6rem; }
+}
+@media (max-width: 420px) {
+  .day-cell { min-height: 58px; padding: 4px; }
+  .novena-label { font-size: 0.55rem; }
+  .day-num { font-size: 0.65rem; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="header">
+  <p class="supertitle">Prayer &amp; Training in Concert</p>
+  <h1>Novena &amp; Training Calendar 2026–2027</h1>
+  <p class="subtitle">Good Friday, April 3, 2026 — Good Friday, March 26, 2027</p>
+</header>
+
+<div class="legends">
+  <div class="legend-group">
+    <div class="legend-group-title">Workout Key</div>
+    <div class="legend-items">
+      <div class="legend-item"><span class="legend-workout" style="background:var(--mobility)">Mobility</span> Yoga · Pilates · Stretching</div>
+      <div class="legend-item"><span class="legend-workout" style="background:var(--zone2)">Easy Cardio</span> Conversational pace</div>
+      <div class="legend-item"><span class="legend-workout" style="background:var(--strength)">Strength</span> Weights and/or Higher Intensity/Volume Cardio</div>
+    </div>
+  </div>
+
+</div>
+
+<nav class="month-nav" id="monthNav"></nav>
+<div id="calendarWrap"></div>
+
+</div>
+<script>
+// ── Novena data ──────────────────────────────────────────────────────────────
+const novenas = [
+  { name: "Divine Mercy Novena", start: [2026,4,3], end: [2026,4,11], feast: [2026,4,12], feastName: "Divine Mercy Sunday", url: "https://catholicnovenaapp.com/novenas/divine-mercy-novena/" },
+  { name: "St. Catherine of Siena Novena", start: [2026,4,21], end: [2026,4,29], feast: [2026,4,29], feastName: "St. Catherine of Siena", url: "https://catholicnovenaapp.com/novenas/st-catherine-of-siena-novena/" },
+  { name: "Our Lady of Fatima Novena", start: [2026,5,5], end: [2026,5,13], feast: [2026,5,13], feastName: "Our Lady of Fatima", url: "https://catholicnovenaapp.com/novenas/our-lady-of-fatima-novena/" },
+  { name: "Novena to the Holy Spirit", start: [2026,5,15], end: [2026,5,23], feast: [2026,5,24], feastName: "Pentecost Sunday", url: "https://catholicnovenaapp.com/novenas/holy-spirit-novena/" },
+  { name: "Corpus Christi Novena", start: [2026,5,30], end: [2026,6,7], feast: [2026,6,7], feastName: "Corpus Christi", url: "https://catholicnovenaapp.com/novenas/corpus-christi-novena/" },
+  { name: "St. John the Baptist Novena", start: [2026,6,16], end: [2026,6,24], feast: [2026,6,24], feastName: "Nativity of St. John the Baptist", url: "https://catholicnovenaapp.com/novenas/st-john-the-baptist-novena/" },
+  { name: "St. Mary Magdalene Novena", start: [2026,7,14], end: [2026,7,22], feast: [2026,7,22], feastName: "St. Mary Magdalene", url: "https://catholicnovenaapp.com/novenas/st-mary-magdalene-novena/" },
+  { name: "St. John Vianney Novena", start: [2026,7,27], end: [2026,8,4], feast: [2026,8,4], feastName: "St. John Vianney", url: "https://catholicnovenaapp.com/novenas/st-john-vianney-novena/" },
+  { name: "Assumption of Mary Novena", start: [2026,8,7], end: [2026,8,15], feast: [2026,8,15], feastName: "Assumption of Mary", url: "https://catholicnovenaapp.com/novenas/assumption-novena/" },
+  { name: "St. Monica Novena", start: [2026,8,19], end: [2026,8,27], feast: [2026,8,27], feastName: "St. Monica", url: "https://catholicnovenaapp.com/novenas/st-monica-novena/" },
+  { name: "St. Mother Teresa Novena", start: [2026,8,28], end: [2026,9,5], feast: [2026,9,5], feastName: "St. Teresa of Calcutta", url: "https://catholicnovenaapp.com/novenas/mother-teresa-novena/" },
+  { name: "St. Padre Pio Novena", start: [2026,9,15], end: [2026,9,23], feast: [2026,9,23], feastName: "St. Padre Pio", url: "https://catholicnovenaapp.com/novenas/st-padre-pio-novena/" },
+  { name: "St. Teresa of Avila Novena", start: [2026,10,6], end: [2026,10,14], feast: [2026,10,15], feastName: "St. Teresa of Avila", url: "https://catholicnovenaapp.com/novenas/st-teresa-of-avila-novena/" },
+  { name: "All Souls Novena", start: [2026,10,24], end: [2026,11,1], feast: [2026,11,2], feastName: "All Souls Day", url: "https://catholicnovenaapp.com/novenas/all-souls-day-novena/" },
+  { name: "St. Leo the Great Novena", start: [2026,11,2], end: [2026,11,10], feast: [2026,11,10], feastName: "St. Leo the Great", url: "https://catholicnovenaapp.com/novenas/pope-st-leo-the-great-novena/" },
+  { name: "Christ the King Novena", start: [2026,11,14], end: [2026,11,22], feast: [2026,11,22], feastName: "Christ the King Sunday", url: "https://catholicnovenaapp.com/novenas/christ-the-king-novena/" },
+  { name: "Immaculate Conception Novena", start: [2026,11,30], end: [2026,12,8], feast: [2026,12,8], feastName: "Immaculate Conception", url: "https://catholicnovenaapp.com/novenas/immaculate-conception-novena/" },
+  { name: "Immaculate Conception Novena", start: [2026,11,30], end: [2026,12,8], feast: [2026,12,8], feastName: "Immaculate Conception", url: "https://catholicnovenaapp.com/novenas/immaculate-conception-novena/" },
+  { name: "O Antiphons Advent Novena", start: [2026,12,8], end: [2026,12,16], feast: [2026,12,17], feastName: "O Antiphons Begin", url: "https://catholicnovenaapp.com/novenas/o-antiphons-advent-novena/" },
+  { name: "Christmas Novena", start: [2026,12,17], end: [2026,12,25], feast: [2026,12,25], feastName: "Christmas Day", url: "https://catholicnovenaapp.com/novenas/christmas-novena/" },
+  { name: "Epiphany Novena", start: [2026,12,29], end: [2027,1,6], feast: [2027,1,6], feastName: "Epiphany of the Lord", url: "https://catholicnovenaapp.com/novenas/epiphany-novena/" },
+  { name: "Christmas Novena", start: [2026,12,17], end: [2026,12,25], feast: [2026,12,25], feastName: "Christmas Day", url: "https://catholicnovenaapp.com/novenas/christmas-novena/" },
+  { name: "Epiphany Novena", start: [2026,12,29], end: [2027,1,6], feast: [2027,1,6], feastName: "Epiphany of the Lord", url: "https://catholicnovenaapp.com/novenas/epiphany-novena/" },
+  { name: "St. Francis de Sales Novena", start: [2027,1,16], end: [2027,1,24], feast: [2027,1,24], feastName: "St. Francis de Sales", url: "https://catholicnovenaapp.com/novenas/st-francis-de-sales-novena/" },
+  { name: "Our Lady of Lourdes Novena", start: [2027,2,3], end: [2027,2,11], feast: [2027,2,11], feastName: "Our Lady of Lourdes", url: "https://catholicnovenaapp.com/novenas/our-lady-of-lourdes-novena/" },
+  { name: "St. Francis de Sales Novena", start: [2027,1,16], end: [2027,1,24], feast: [2027,1,24], feastName: "St. Francis de Sales", url: "https://catholicnovenaapp.com/novenas/st-francis-de-sales-novena/" },
+  { name: "Our Lady of Lourdes Novena", start: [2027,2,3], end: [2027,2,11], feast: [2027,2,11], feastName: "Our Lady of Lourdes", url: "https://catholicnovenaapp.com/novenas/our-lady-of-lourdes-novena/" },
+  { name: "St. Gabriel of Our Lady of Sorrows", start: [2027,2,18], end: [2027,2,26], feast: [2027,2,27], feastName: "St. Gabriel of Sorrows", url: "https://catholicnovenaapp.com/novenas/st-gabriel-of-our-lady-of-sorrows-novena/" },
+  { name: "St. Patrick Novena", start: [2027,3,9], end: [2027,3,17], feast: [2027,3,17], feastName: "St. Patrick", url: "https://catholicnovenaapp.com/novenas/st-patrick-novena/" },
+  { name: "St. Patrick Novena", start: [2027,3,9], end: [2027,3,17], feast: [2027,3,17], feastName: "St. Patrick", url: "https://catholicnovenaapp.com/novenas/st-patrick-novena/" },
+  { name: "Annunciation Novena", start: [2027,3,17], end: [2027,3,25], feast: [2027,3,25], feastName: "Annunciation of the Lord", url: "https://catholicnovenaapp.com/novenas/annunciation-novena/" },
+  { name: "Divine Mercy Novena", start: [2027,3,26], end: [2027,4,3], feast: [2027,4,4], feastName: "Divine Mercy Sunday 2027", url: "https://catholicnovenaapp.com/novenas/divine-mercy-novena/" },
+
+  { name: "St. George Novena", start: [2027,4,15], end: [2027,4,23], feast: [2027,4,23], feastName: "St. George", url: "https://catholicnovenaapp.com/novenas/st-george-novena/" },
+  { name: "Sts. Philip and James Novena", start: [2027,4,25], end: [2027,5,3], feast: [2027,5,3], feastName: "Sts. Philip & James", url: "https://catholicnovenaapp.com/novenas/sts-philip-james-novena/" },
+  { name: "St. George Novena", start: [2027,4,15], end: [2027,4,23], feast: [2027,4,23], feastName: "St. George", url: "https://catholicnovenaapp.com/novenas/st-george-novena/" },
+  { name: "Sts. Philip and James Novena", start: [2027,4,25], end: [2027,5,3], feast: [2027,5,3], feastName: "Sts. Philip & James", url: "https://catholicnovenaapp.com/novenas/sts-philip-james-novena/" },
+  { name: "Novena to the Holy Spirit", start: [2027,5,7], end: [2027,5,15], feast: [2027,5,16], feastName: "Pentecost Sunday 2027", url: "https://catholicnovenaapp.com/novenas/holy-spirit-novena/" },
+];
+
+// Assign a color index to each novena
+novenas.forEach((n, i) => { n.colorIdx = i % 41; });
+
+// ── Build feast date lookup map ───────────────────────────────────────────────
+const feastMap = {};
+novenas.forEach(n => {
+  if (n.feast) {
+    const key = `${n.feast[0]}-${n.feast[1]}-${n.feast[2]}`;
+    feastMap[key] = n.feastName;
+  }
+});
+
+feastMap["2026-5-14"] = "Ascension Thursday";
+feastMap["2026-4-16"] = ["St. Bernadette", "Servant of God Clare Crockett"];
+feastMap["2027-4-16"] = ["St. Bernadette", "Servant of God Clare Crockett"];
+feastMap["2026-6-22"] = "Checkpoint 1 — End of Cycle 9";
+feastMap["2026-9-11"] = "Checkpoint 2 — End of Cycle 18";
+feastMap["2026-12-31"] = "Checkpoint 3 — End of Cycle 27";
+feastMap["2026-9-14"] = "Exaltation of the Holy Cross";
+feastMap["2026-11-1"] = "All Saints Day";
+feastMap["2026-11-2"] = "All Souls Day";
+feastMap["2026-12-12"] = "Our Lady of Guadalupe";
+feastMap["2026-12-13"] = "St. Lucy";
+feastMap["2027-1-1"] = "Mary, Mother of God";
+feastMap["2027-1-11"] = "Baptism of the Lord";
+feastMap["2027-2-10"] = "Ash Wednesday";
+feastMap["2027-2-14"] = "First Sunday of Lent";
+feastMap["2026-5-27"] = "Ember Wednesday (Summer)";
+feastMap["2026-5-29"] = "Ember Friday (Summer)";
+feastMap["2026-5-30"] = "Ember Saturday (Summer)";
+feastMap["2026-9-16"] = "Ember Wednesday (Autumn)";
+feastMap["2026-9-18"] = "Ember Friday (Autumn)";
+feastMap["2026-9-19"] = "Ember Saturday (Autumn)";
+feastMap["2026-12-16"] = "Ember Wednesday (Winter)";
+feastMap["2026-12-18"] = "Ember Friday (Winter)";
+feastMap["2026-12-19"] = "Ember Saturday (Winter)";
+feastMap["2027-2-17"] = "Ember Wednesday (Spring)";
+feastMap["2027-2-19"] = "Ember Friday (Spring)";
+feastMap["2027-2-20"] = "Ember Saturday (Spring)";
+feastMap["2027-5-19"] = "Ember Wednesday (Summer)";
+feastMap["2027-5-21"] = "Ember Friday (Summer)";
+feastMap["2027-5-22"] = "Ember Saturday (Summer)";
+feastMap["2026-10-1"] = "St. Therese of Lisieux — Express Novena Day";
+feastMap["2027-5-6"] = "Ascension Thursday 2027";
+
+function getFeast(date) {
+  const key = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
+  return feastMap.hasOwnProperty(key) ? feastMap[key] : null;
+}
+
+// ── 9-day training cycle (starts Apr 3 2026) ────────────────────────────────
+// Day 1=Mobility, 2=Zone2, 3=Strength, 4=Mobility, 5=Zone2, 6=Strength, 7=Mobility, 8=Zone2, 9=Strength
+const cyclePattern = ['mobility','zone2','strength','mobility','zone2','strength','mobility','zone2','strength'];
+const cycleStart = new Date(2026, 3, 3); // April 3 2026 = day 1
+
+function getWorkout(date) {
+  const d = new Date(date); d.setHours(0,0,0,0);
+  const s = new Date(cycleStart); s.setHours(0,0,0,0);
+  const diff = Math.round((d - s) / 86400000);
+  if (diff < 0) return null;
+  return cyclePattern[diff % 9];
+}
+
+function getNovena(date) {
+  const d = new Date(date); d.setHours(0,0,0,0);
+  for (const n of novenas) {
+    const s = new Date(n.start[0], n.start[1]-1, n.start[2]);
+    const e = new Date(n.end[0],   n.end[1]-1,   n.end[2]);
+    if (d >= s && d <= e) return n;
+  }
+  return null;
+}
+
+function getNovenaLength(novena) {
+  const s = new Date(novena.start[0], novena.start[1]-1, novena.start[2]);
+  const endYear = (novena.end[1] < novena.start[1] && novena.end[0] === novena.start[0]) ? novena.start[0] + 1 : novena.end[0];
+  const e = new Date(endYear, novena.end[1]-1, novena.end[2]);
+  return Math.round((e - s) / 86400000) + 1;
+}
+
+function getNovenaDay(date, novena) {
+  const d = new Date(date); d.setHours(0,0,0,0);
+  const s = new Date(novena.start[0], novena.start[1]-1, novena.start[2]);
+  return Math.round((d - s) / 86400000) + 1;
+}
+
+// ── Color map ────────────────────────────────────────────────────────────────
+const novenaColors = [
+  '#7B3F3F','#3F5F7B','#4A7B3F','#7B6B3F','#5B3F7B','#7B4E3F','#3F7B6B','#6B7B3F',
+  '#7B3F5B','#3F4E7B','#6B3F3F','#3F7B4A','#7B5B3F','#3F3F7B','#7B3F6B','#4A6B7B',
+  '#6B7B3F','#7B4A3F','#3F7B5B','#5F3F7B','#7B6B3F','#3F5B7B','#7B3F4A','#3F7B3F',
+  '#7B5F3F','#3F6B7B','#6F3F7B','#7B3F5F','#4A7B3F','#7B4B3F','#3F4B7B','#3F7B6F',
+  '#7B3F3F','#3F7B4B','#7B6F3F','#3F3F6B','#7B3F7B','#3F6F7B','#7B4F3F','#3F7B3F','#5F7B3F'
+];
+
+const workoutLabels = { mobility: 'Mobility', zone2: 'Easy Cardio', strength: 'Strength' };
+
+// ── Month pages ──────────────────────────────────────────────────────────────
+const months = [
+  [2026,4],[2026,5],[2026,6],[2026,7],[2026,8],[2026,9],
+  [2026,10],[2026,11],[2026,12],[2027,1],[2027,2],[2027,3],[2027,4],[2027,5]
+];
+const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+let activeMonth = 0; // index into months[]
+
+// ── Build month nav ──────────────────────────────────────────────────────────
+function buildNav() {
+  const nav = document.getElementById('monthNav');
+  months.forEach(([y,m], i) => {
+    const btn = document.createElement('button');
+    btn.className = 'month-btn' + (i === activeMonth ? ' active' : '');
+    btn.textContent = monthNames[m-1].slice(0,3) + ' ' + y;
+    btn.onclick = () => {
+      activeMonth = i;
+      document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderMonth();
+    };
+    nav.appendChild(btn);
+  });
+}
+
+// ── Render a month ───────────────────────────────────────────────────────────
+function renderMonth() {
+  const [year, month] = months[activeMonth];
+  const wrap = document.getElementById('calendarWrap');
+  wrap.innerHTML = '';
+
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  const div = document.createElement('div');
+  div.className = 'calendar-wrap';
+
+  // Month title
+  const title = document.createElement('div');
+  title.className = 'month-title';
+  title.textContent = monthNames[month-1] + ' ' + year;
+  div.appendChild(title);
+
+  // Day headers
+  const hdrs = document.createElement('div');
+  hdrs.className = 'day-headers';
+  dayNames.forEach(d => {
+    const h = document.createElement('div');
+    h.className = 'day-header';
+    h.textContent = d;
+    hdrs.appendChild(h);
+  });
+  div.appendChild(hdrs);
+
+  // Grid
+  const grid = document.createElement('div');
+  grid.className = 'cal-grid';
+
+  const firstDay = new Date(year, month-1, 1).getDay();
+  const daysInMonth = new Date(year, month, 0).getDate();
+
+  // Empty cells
+  for (let i = 0; i < firstDay; i++) {
+    const empty = document.createElement('div');
+    empty.className = 'day-cell empty';
+    grid.appendChild(empty);
+  }
+
+  // Day cells
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = new Date(year, month-1, d);
+    date.setHours(0,0,0,0);
+    const isToday = date.getTime() === today.getTime();
+
+    const cell = document.createElement('div');
+    cell.className = 'day-cell' + (isToday ? ' today' : '');
+
+    const novena = getNovena(date);
+    const workout = getWorkout(date);
+    const feast = getFeast(date);
+
+    // Novena color bar
+    if (novena) {
+      cell.style.setProperty('--cell-novena-color', novenaColors[novena.colorIdx]);
+      cell.style.cssText += `--cell-novena-color: ${novenaColors[novena.colorIdx]};`;
+      // Apply left border via inline style since we need dynamic color
+      cell.style.borderLeft = `4px solid ${novenaColors[novena.colorIdx]}`;
+      cell.style.background = `linear-gradient(to right, ${novenaColors[novena.colorIdx]}14 0%, rgba(255,255,255,0.45) 18%)`;
+    }
+
+    if (isToday) {
+      const marker = document.createElement('div');
+      marker.className = 'today-marker';
+      marker.textContent = 'Today';
+      cell.appendChild(marker);
+    }
+
+    // Day number
+    const dayNum = document.createElement('div');
+    dayNum.className = 'day-num';
+    dayNum.textContent = d;
+    cell.appendChild(dayNum);
+
+    // Novena name
+    if (novena) {
+      const nLabel = document.createElement('div');
+      nLabel.className = 'novena-label';
+      const shortName = novena.name.replace(' Novena','');
+      if (novena.url) {
+        nLabel.innerHTML = `<a href="${novena.url}" target="_blank" rel="noopener">${shortName}</a>`;
+      } else {
+        nLabel.textContent = shortName;
+      }
+      const nDay = document.createElement('div');
+      nDay.className = 'novena-day';
+      const dayNum9 = getNovenaDay(date, novena);
+      const novenaLen = getNovenaLength(novena);
+      nDay.textContent = novena.dailyReset ? `Day 1 of 1` : `Day ${dayNum9} of ${novenaLen}`;
+      nLabel.appendChild(nDay);
+      cell.appendChild(nLabel);
+    }
+
+    // Feast day marker
+    if (feast) {
+      const feasts = Array.isArray(feast) ? feast : [feast];
+      feasts.forEach(f => {
+        const fLabel = document.createElement('div');
+        fLabel.className = 'feast-label' + (f.includes('Checkpoint') ? ' checkpoint' : '');
+        fLabel.textContent = f;
+        cell.appendChild(fLabel);
+      });
+    }
+
+    // Workout badge
+    if (workout) {
+      const badge = document.createElement('div');
+      badge.className = `workout-badge ${workout}`;
+      badge.textContent = workoutLabels[workout];
+      cell.appendChild(badge);
+    }
+
+    grid.appendChild(cell);
+  }
+
+  div.appendChild(grid);
+  wrap.appendChild(div);
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+// Set active month to current month
+const now = new Date();
+const currentIdx = months.findIndex(([y,m]) => y === now.getFullYear() && m === now.getMonth()+1);
+if (currentIdx >= 0) activeMonth = currentIdx;
+
+buildNav();
+renderMonth();
+
+// Scroll today into view
+setTimeout(() => {
+  const todayCell = document.querySelector('.day-cell.today');
+  if (todayCell) todayCell.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}, 150);
+</script>
+</body>
+</html>
